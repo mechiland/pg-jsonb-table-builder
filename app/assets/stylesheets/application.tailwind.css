@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+a {
+  @apply text-blue-500 underline;
+}
+
+input[type=submit] {
+  @apply h-10 px-5 flex text-white bg-blue-500 cursor-pointer;
+}
+
+table {
+  @apply border-collapse border border-gray-300;
+
+
+}
+
+table td, table th {
+    @apply border border-gray-300 border-gray-300 p-1 text-sm;
+}

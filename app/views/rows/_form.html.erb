@@ -1,0 +1,32 @@
+<%= form_with(model: [@table, row]) do |form| %>
+  <% if row.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(row.errors.count, "error") %> prohibited this row from being saved:</h2>
+
+      <ul>
+        <% row.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% @table.columns.each do |c|%>
+  <div>
+    <%= form.label c.name, style: "display: block" %>
+
+    <% if c.type == "single_select" %>
+      <%= select_tag "row[values[#{c.code}]]",  options_from_collection_for_select(c.select_options, "id", "text") %>
+    <% else %>
+
+
+    <%= text_field_tag "row[values[#{c.code}]]", row.values[c.code]%>
+  </div>
+  <% end %>
+
+  <% end%>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

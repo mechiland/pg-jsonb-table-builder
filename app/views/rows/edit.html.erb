@@ -1,0 +1,9 @@
+<h1>Editing row <%= @row.id %></h1>
+
+<%= render "form", row: @row %>
+
+<br>
+
+<div>
+  <%= link_to "Back to rows", table_rows_path(@table) %>
+</div>

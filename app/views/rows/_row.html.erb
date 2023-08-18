@@ -1,0 +1,13 @@
+<tr id="<%= dom_id row %>">
+  <td><%= link_to row.id, edit_table_row_path(@table, row) %></td>
+  <% @table.columns.each do |c|%>
+    <td>
+    <% if c.type == "single_select" %>
+      <%= c.select_options.find(row.values[c.code]).text %>
+    <% else %>
+    <%= row.values[c.code]%>
+    <% end %>
+    </td>
+  <% end %>
+
+</tr>

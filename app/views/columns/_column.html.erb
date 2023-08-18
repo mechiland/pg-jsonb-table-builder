@@ -1,0 +1,28 @@
+<tr id="<%= dom_id column %>">
+
+<td>
+    <%= link_to column.id, edit_table_column_path(@table, column) %>
+  </td>
+
+  <td>
+    <%= column.name %>
+  </td>
+
+  <td>
+    <%= column.code %>
+  </td>
+
+  <td>
+    <%= column.type %>
+  </td>
+
+  <td>
+    <%= button_to "Delete", table_column_path(@table, column), method: :delete %>
+  </td>
+
+  <td>
+    <%= column.select_options.map(&:text) if column.type == "single_select" %>
+  </td>
+
+
+</tr>

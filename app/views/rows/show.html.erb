@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @row %>
+
+<div>
+  <%= link_to "Edit this row", edit_row_path(@row) %> |
+  <%= link_to "Back to rows", rows_path %>
+
+  <%= button_to "Destroy this row", @row, method: :delete %>
+</div>

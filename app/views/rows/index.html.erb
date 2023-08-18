@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Rows</h1>
+
+<div id="rows">
+  <% @rows.each do |row| %>
+    <%= render row %>
+    <p>
+      <%= link_to "Show this row", row %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New row", new_row_path %>

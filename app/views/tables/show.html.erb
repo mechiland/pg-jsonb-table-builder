@@ -1,0 +1,26 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @table %>
+
+<table>
+  <tr>
+    <%= render "row_header", columns: @table.columns %>
+  </tr>
+
+  <%= render @rows %>
+</table>
+
+<%= paginate @rows %>
+
+<hr/>
+
+
+
+<%= link_to "New column", new_table_column_path(@table) %>
+
+<div>
+  <%= link_to "Edit this table", edit_table_path(@table) %> |
+  <%= link_to "Back to tables", tables_path %>
+
+  <%= button_to "Destroy this table", @table, method: :delete %>
+</div>
