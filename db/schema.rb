@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_133223) do
     t.string "name"
     t.string "code"
     t.string "type"
+    t.string "setting"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_columns_on_code", unique: true

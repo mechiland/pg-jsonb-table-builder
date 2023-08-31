@@ -5,6 +5,7 @@ class CreateColumns < ActiveRecord::Migration[7.0]
       t.string :name
       t.string :code
       t.string :type
+      t.string :setting
 
       t.timestamps
     end

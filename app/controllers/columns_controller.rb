@@ -23,7 +23,6 @@ class ColumnsController < ApplicationController
   # POST /columns or /columns.json
   def create
     @column = @table.columns.new(column_params)
-    @column.code = Nanoid.generate(size: 10)
 
     respond_to do |format|
       if @column.save

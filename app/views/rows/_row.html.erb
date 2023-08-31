@@ -3,7 +3,9 @@
   <% @table.columns.each do |c|%>
     <td>
     <% if c.type == "single_select" %>
-      <%= c.select_options.find(row.values[c.code]).text %>
+      <%= @select_options_hash[row.values[c.code]] %>
+    <% elsif c.type == "formula" %>
+      <%= c.setting %>
     <% else %>
     <%= row.values[c.code]%>
     <% end %>

@@ -9,6 +9,12 @@ class TablesController < ApplicationController
   # GET /tables/1 or /tables/1.json
   def show
     @rows = @table.rows.page(params[:page]).per(100)
+    @select_options = SelectOption.where(column_id: @table.columns.pluck(:id))
+    # convert @select_options to hash
+    @select_options_hash = {}
+    @select_options.each do |select_option|
+      @select_options_hash[select_option.id] = select_option.text
+    end
   end
 
   # GET /tables/new
