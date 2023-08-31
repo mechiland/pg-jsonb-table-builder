@@ -3,11 +3,11 @@
   <% @table.columns.each do |c|%>
     <td>
     <% if c.type == "single_select" %>
-      <%= @select_options_hash[row.values[c.code]] %>
+      <%= @select_options_hash[row["values_#{c.code}"]] %>
     <% elsif c.type == "formula" %>
-      <%= c.setting %>
+      <%= row["values_#{c.code}"]%>
     <% else %>
-    <%= row.values[c.code]%>
+      <%= row["values_#{c.code}"]%>
     <% end %>
     </td>
   <% end %>

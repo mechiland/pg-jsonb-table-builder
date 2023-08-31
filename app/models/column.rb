@@ -16,6 +16,7 @@ class Column < ApplicationRecord
   private
 
   def generate_code
-    self.code = Nanoid.generate(size: 10)
+    the_code = Nanoid.generate(size: 10, alphabet: '0123456789abcdefghijklmnopqrstuvwxyz')
+    self.code = "col#{the_code}"
   end
 end

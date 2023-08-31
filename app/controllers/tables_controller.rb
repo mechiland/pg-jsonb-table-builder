@@ -8,13 +8,37 @@ class TablesController < ApplicationController
 
   # GET /tables/1 or /tables/1.json
   def show
-    @rows = @table.rows.page(params[:page]).per(100)
+
     @select_options = SelectOption.where(column_id: @table.columns.pluck(:id))
     # convert @select_options to hash
     @select_options_hash = {}
     @select_options.each do |select_option|
       @select_options_hash[select_option.id] = select_option.text
     end
+
+    columnMap = {}
+    @table.columns.each do |column|
+      columnMap[column.name] = column.code
+    end
+
+    select_values = @table.columns.map do |column|
+      if column.type == "formula"
+        f_str = column.setting # "{Unit Sold} * ({Unit Price} - {Unit Cost})"
+
+        columnMap.each do |cname, code|
+          f_str.gsub! "{#{cname}}", "cast(values -> '#{code}' AS decimal)"
+        end
+
+        puts f_str
+
+        "#{f_str} AS values_#{column.code}"
+      else
+        "values -> '#{column.code}' AS values_#{column.code}"
+      end
+    end
+
+    @rows = @table.rows.select([:id].concat(select_values)).page(params[:page]).per(100).order(:id)
+
   end
 
   # GET /tables/new

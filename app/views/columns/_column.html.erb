@@ -22,6 +22,7 @@
 
   <td>
     <%= column.select_options.map(&:text) if column.type == "single_select" %>
+    <%= column.setting if column.type == "formula" %>
   </td>
 
 

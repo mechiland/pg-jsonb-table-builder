@@ -15,9 +15,9 @@ table_columns = [
   { name: 'Units Sold', type: 'number' },
   { name: 'Unit Price', type: 'number' },
   { name: 'Unit Cost', type: 'number' },
-  { name: 'Total Revenue', type: 'formula', setting: '"Unit Sold" * "Unit Price"' },
-  { name: 'Total Cost', type: 'formula', setting: '"Unit Sold" * "Unit Cost"' },
-  { name: 'Total Profit', type: 'formula', setting: '"Unit Sold" * ("Unit Price" - "Unit Cost")' },
+  { name: 'Total Revenue', type: 'formula', setting: '{Units Sold} * {Unit Price}' },
+  { name: 'Total Cost', type: 'formula', setting: '{Units Sold} * {Unit Cost}' },
+  { name: 'Total Profit', type: 'formula', setting: '{Units Sold} * ({Unit Price} - {Unit Cost})' },
 ]
 
 table_columns.each do |column|

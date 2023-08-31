@@ -1,6 +1,8 @@
 <tr>
   <th>#</th>
   <% columns.each do |c|%>
-  <th><%= c.name %></th>
+  <th><%= c.name %>
+    <%= link_to "E", edit_table_column_path(@table, c)%>
+  </th>
   <% end %>
 </tr>

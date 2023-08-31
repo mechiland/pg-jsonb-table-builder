@@ -22,7 +22,7 @@
 
   <div>
     <%= form.label :type, style: "display: block" %>
-    <%= form.select :type, options_for_select(Column.types.keys) %>
+    <%= form.select :type, options_for_select(Column.types.values, selected: column.type) %>
   </div>
 
   <div>

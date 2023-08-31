@@ -38,7 +38,24 @@ class RowsController < ApplicationController
   # PATCH/PUT /rows/1 or /rows/1.json
   def update
     respond_to do |format|
-      if @row.update(row_params)
+      updated_values = {}
+      @table.columns.each do |column|
+        case column.type
+        when 'single_select'
+          updated_values[column.code] = row_params[:values][column.code].to_i
+        when 'single_line_text'
+          updated_values[column.code] = row_params[:values][column.code]
+        when 'date'
+          updated_values[column.code] = row_params[:values][column.code]
+        when 'number'
+          updated_values[column.code] = row_params[:values][column.code].to_i
+        when 'formula'
+          # Do nothing
+        end
+      end
+      puts updated_values
+      puts row_params
+      if @row.update_attribute :values, updated_values
         format.html { redirect_to table_url(@table), notice: "Row was successfully updated." }
         format.json { render :show, status: :ok, location: @row }
       else
