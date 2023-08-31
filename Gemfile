@@ -78,3 +78,4 @@ end
 gem 'nanoid'
 gem "smarter_csv"
 gem "kaminari"
+gem "dentaku"

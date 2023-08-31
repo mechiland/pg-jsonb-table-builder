@@ -89,6 +89,8 @@ GEM
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    dentaku (3.5.1)
+      concurrent-ruby
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -230,6 +232,7 @@ DEPENDENCIES
   capybara
   cssbundling-rails
   debug
+  dentaku
   jbuilder
   jsbundling-rails
   kaminari

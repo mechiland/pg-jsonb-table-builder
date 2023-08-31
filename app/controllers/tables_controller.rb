@@ -1,3 +1,61 @@
+require "dentaku"
+require 'dentaku/parser'
+
+FUNCTION_MAPPING = {
+  'right' => 'right',
+  'left' => 'left',
+}
+
+
+def translate_function_to_sql(formula)
+
+  # Parse the formula into an AST
+  tokens = Dentaku::Tokenizer.new.tokenize(formula)
+  ast = Dentaku::Parser.new(tokens).parse
+
+  # Walk the AST and translate it into SQL
+  sql = ast_node_to_sql(ast)
+
+  puts sql
+
+  # Wrap the translated formula in a SELECT statement
+  "#{sql}"
+end
+
+def ast_node_to_sql(node)
+  if node.is_a?(Dentaku::AST::Function)
+    puts node.inspect
+    puts "************"
+    sql_func_name = FUNCTION_MAPPING[node.name] || node.name
+    "#{sql_func_name}(#{node.args.map{|a| ast_node_to_sql(a)}.join(',')})"
+  elsif node.is_a?(Dentaku::AST::Arithmetic)
+    " #{node.operator} "
+  elsif node.is_a?(Dentaku::AST::Node)
+    "#{node.value}"
+
+  else
+    node.value.to_s
+  end
+  # puts node.inspect
+  # case node
+  # when Dentaku::AST::Function
+  #   # Translate function nodes using the function mapping
+  #   function = function_mapping[node.value.downcase]
+  #   raise "Unknown function: #{node.value}" unless function
+  #   arguments = node.args.map { |arg| translate_ast(arg, function_mapping) }
+  #   "#{function}(#{arguments.join(', ')})"
+  # when Dentaku::AST::String
+  #   # Translate string nodes directly
+  #   "'#{node.value}'"
+  # when Dentaku::AST::Numeric
+  #   # Translate numeric nodes directly
+  #   node.value.to_s
+  # else
+  #   raise "Unknown node type: #{node.class}"
+  # end
+end
+
+
 class TablesController < ApplicationController
   before_action :set_table, only: %i[ show edit update destroy ]
 
@@ -9,6 +67,8 @@ class TablesController < ApplicationController
   # GET /tables/1 or /tables/1.json
   def show
 
+    puts translate_function_to_sql("Right(Left('123456789', 5), 3)")
+
     @select_options = SelectOption.where(column_id: @table.columns.pluck(:id))
     # convert @select_options to hash
     @select_options_hash = {}
@@ -18,19 +78,22 @@ class TablesController < ApplicationController
 
     columnMap = {}
     @table.columns.each do |column|
-      columnMap[column.name] = column.code
+      columnMap[column.name] = column
     end
 
     select_values = @table.columns.map do |column|
       if column.type == "formula"
         f_str = column.setting # "{Unit Sold} * ({Unit Price} - {Unit Cost})"
 
-        columnMap.each do |cname, code|
-          f_str.gsub! "{#{cname}}", "cast(values -> '#{code}' AS decimal)"
+        columnMap.each do |cname, col|
+          if col.type == "number"
+            f_str.gsub! "{#{cname}}", "cast(values -> '#{col.code}' AS decimal)"
+          elsif col.type == "formula"
+            f_str.gsub! "{#{cname}}", "cast(values -> '#{col.code}' AS decimal)"
+          else
+            f_str.gsub! "{#{cname}}", "cast(values ->> '#{col.code}' AS text)"
+          end
         end
-
-        puts f_str
-
         "#{f_str} AS values_#{column.code}"
       else
         "values -> '#{column.code}' AS values_#{column.code}"
